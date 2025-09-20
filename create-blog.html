@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog - BlogCraft</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-blog me-2"></i>BlogCraft
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="create-blog.html">Create Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html">Blogs</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center" id="auth-buttons">
+                    <button class="btn btn-outline-light me-2" id="login-btn" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+                    <button class="btn btn-primary" id="signup-btn" data-bs-toggle="modal" data-bs-target="#authModal">Sign Up</button>
+                </div>
+                <div class="d-flex align-items-center d-none" id="user-info">
+                    <span class="text-white me-3" id="user-name"></span>
+                    <a href="dashboard.html" class="btn btn-outline-light me-2">Dashboard</a>
+                    <button class="btn btn-danger" id="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Create Blog Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow" data-aos="fade-up">
+                        <div class="card-header">
+                            <h3 class="mb-0" data-aos="fade-right"><i class="fas fa-plus-circle me-2"></i>Create New Blog</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="blog-form">
+                                <div class="row">
+                                    <div class="col-md-8" data-aos="slide-up">
+                                        <div class="mb-3">
+                                            <label for="blog-title" class="form-label">Blog Title</label>
+                                            <input type="text" class="form-control" id="blog-title" placeholder="Enter blog title" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" data-aos="slide-up" data-aos-delay="100">
+                                        <div class="mb-3">
+                                            <label for="blog-author" class="form-label">Author Name</label>
+                                            <input type="text" class="form-control" id="blog-author" placeholder="Your name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="150">
+                                    <label for="blog-category" class="form-label">Category</label>
+                                    <select class="form-select" id="blog-category">
+                                        <option value="">Select a category</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="lifestyle">Lifestyle</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="food">Food</option>
+                                        <option value="health">Health</option>
+                                        <option value="education">Education</option>
+                                        <option value="entertainment">Entertainment</option>
+                                        <option value="business">Business</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="200">
+                                    <label for="blog-image" class="form-label">Cover Image URL</label>
+                                    <input type="url" class="form-control" id="blog-image" placeholder="https://example.com/image.jpg">
+                                    <div class="form-text">Enter a public image URL. Example: https://picsum.photos/600/300</div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="generate-image-btn">
+                                            <i class="fas fa-magic me-1"></i> Generate Random Image
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="250">
+                                    <label class="form-label">Tags</label>
+                                    <div class="tag-input-container" id="tags-container">
+                                        <input type="text" class="tag-input" id="tag-input" placeholder="Add tags (press Enter)">
+                                    </div>
+                                    <div class="form-text">Press Enter after each tag</div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" id="suggested-tags-btn">
+                                            <i class="fas fa-lightbulb me-1"></i> Suggested Tags
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="300">
+                                    <label class="form-label">Blog Content</label>
+                                    <div class="rich-text-editor">
+                                        <div class="rich-text-toolbar">
+                                            <button type="button" class="btn-bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                            <button type="button" class="btn-italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                            <button type="button" class="btn-underline" title="Underline"><i class="fas fa-underline"></i></button>
+                                            <button type="button" class="btn-strikethrough" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+                                            <div class="vr mx-1"></div>
+                                            <button type="button" class="btn-list-ul" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                            <button type="button" class="btn-list-ol" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                            <div class="vr mx-1"></div>
+                                            <button type="button" class="btn-link" title="Insert Link"><i class="fas fa-link"></i></button>
+                                            <button type="button" class="btn-image" title="Insert Image"><i class="fas fa-image"></i></button>
+                                            <div class="vr mx-1"></div>
+                                            <button type="button" class="btn-undo" title="Undo"><i class="fas fa-undo"></i></button>
+                                            <button type="button" class="btn-redo" title="Redo"><i class="fas fa-redo"></i></button>
+                                        </div>
+                                        <div class="rich-text-content" id="blog-content" contenteditable="true" placeholder="Write your blog content here..."></div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-info" id="insert-template-btn">
+                                            <i class="fas fa-file-code me-1"></i> Insert Template
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="350">
+                                    <label class="form-label">Reading Time Estimation</label>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-clock me-2"></i>Estimated reading time: <span id="reading-time">0</span> minutes
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" data-aos="slide-up" data-aos-delay="400">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="publish-checkbox">
+                                        <label class="form-check-label" for="publish-checkbox">
+                                            Publish immediately
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="featured-checkbox">
+                                        <label class="form-check-label" for="featured-checkbox">
+                                            Feature this blog
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between" data-aos="fade-up" data-aos-delay="450">
+                                    <div>
+                                        <button type="button" class="btn btn-secondary" id="preview-btn" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                            <i class="fas fa-eye me-1"></i> Preview
+                                        </button>
+                                        <button type="button" class="btn btn-info ms-2" id="save-draft-btn">
+                                            <i class="fas fa-save me-1"></i> Save Draft
+                                        </button>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" data-aos="bounce">
+                                        <i class="fas fa-paper-plane me-1"></i> Publish Blog
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Blog Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body preview-content">
+                    <div id="preview-content">
+                        <!-- Preview will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Login</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button" role="tab">Sign Up</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabsContent">
+                        <!-- Login Form -->
+                        <div class="tab-pane fade show active" id="login" role="tabpanel">
+                            <form id="login-form">
+                                <div class="mb-3">
+                                    <label for="login-email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="login-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="login-password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="login-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Login</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Signup Form -->
+                        <div class="tab-pane fade" id="signup" role="tabpanel">
+                            <form id="signup-form">
+                                <div class="mb-3">
+                                    <label for="signup-name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="signup-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signup-email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="signup-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signup-password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="signup-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5 mt-5" data-aos="slide-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5><i class="fas fa-blog me-2"></i>BlogCraft</h5>
+                    <p>Create stunning blogs with our easy-to-use platform. No coding required!</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="create-blog.html" class="text-light text-decoration-none">Create Blog</a></li>
+                        <li><a href="blogs.html" class="text-light text-decoration-none">All Blogs</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i> info@blogcraft.in</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Mumbai, Maharashtra</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 BlogCraft India. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/create-blog.js"></script>
+</body>
+</html>
